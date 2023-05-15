@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-claim
+  namespace: cp4ba
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "nfs-managed-storage"
+spec:
+  storageClassName: nfs-managed-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
