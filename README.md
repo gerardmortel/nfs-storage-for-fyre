@@ -2,7 +2,7 @@
 # https://github.ibm.com/gmortel/nfs-storage-for-fyre
 
 # Purpose
-The purpose of this repo is create NFS storage on IBM Fyre
+The purpose of this repo is create NFS storage on IBM Fyre.
 
 # Prerequisites
 1. OpenShift cluster on Fyre
