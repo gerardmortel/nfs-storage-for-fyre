@@ -41,12 +41,12 @@ spec:
             - name: NFS_SERVER
               value: ${NFSSERVER}		# change to a real NFS server name
             - name: NFS_PATH
-              value: ${NFSSERVERLOGSPATH}							# adjust as needed
+              value: ${NFSLOGSPATH}							# adjust as needed
       volumes:
         - name: nfs-client-root
           nfs:
             server: ${NFSSERVER}		# chnage to a real NFS server name
-            path: ${NFSSERVERLOGSPATH}							# adjust as needed
+            path: ${NFSLOGSPATH}							# adjust as needed
 EOF
 
 echo "#### Apply the previously created deployment yaml"
