@@ -4,8 +4,9 @@
 #export CLUSTER_USER="kubeadmin"
 #export CLUSTER_PASS="nW8au-sSkIS-pnQhI-5u2Gw"
 #export CLUSTER_URL="https://api.tumefy.cp.fyre.ibm.com:6443"
-#export NFSSERVER="10.17.2.117"
-export NFSSERVER=$(ip addr | awk -F' ' '$0 ~ /inet 10/{print $2}' | cut -d/ -f1)
+# export NFSSERVER="10.17.2.117"
+export NFSSERVER=$(ip addr | awk -F' ' '$0 ~ /inet 10/{print $2}' | cut -d/ -f1) # Fyre
+# export NFSSERVER="" # ROKS/Techzone
 
 ### Log in to the OCP cluster as a cluster administrator.
 #oc login ${CLUSTER_URL} --username=${CLUSTER_USER} --password=${CLUSTER_PASS}
@@ -20,6 +21,6 @@ export STORAGECLASS="nfs-managed-storage" # NFS Storage
 
 ### Preparing Storage Class Option 2, Static Storage using PVs and PVCs
 ### https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/21.0.x?topic=operator-preparing-log-file-storage
-#export NFSSERVER="10.17.96.163"
-export NFSSERVEROPERATORPATH="/data/nfsshare/operator"
-export NFSSERVERLOGSPATH="/data/nfsshare/logs"
+export NFSBASEPATH=${HOME}/data/nfsshare/
+export NFSOPERATORPATH="${NFSBASEPATH}/operator"
+export NFSLOGSPATH="${NFSBASEPATH}/logs"

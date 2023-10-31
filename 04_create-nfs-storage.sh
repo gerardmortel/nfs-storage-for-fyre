@@ -1,26 +1,62 @@
 #!/bin/bash
 
-# Create the namespace
+echo "#### Create the namespace"
 oc create namespace ${CP4BANAMESPACE}
 
-# Apply the RBAC
+echo "#### Apply the RBAC"
 oc apply -f yaml/01_nfs-client-provisioner-rbac.yaml
 
-# Assign the hostmount-anyuid Security Context Constraint (SCC) to the nfs-client-provisioner service account in the cp4ba namespace.
-oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:cp4ba:nfs-client-provisioner
+echo "#### Assign the hostmount-anyuid Security Context Constraint (SCC) to the nfs-client-provisioner service account in the ${CP4BANAMESPACE} namespace"
+oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:${CP4BANAMESPACE}:nfs-client-provisioner
 
-# Make a copy of the
-cp yaml/03_nfs-client-provisioner-deployment.yaml yaml/new-nfs-client-provisioner-deployment.yaml
-sed -ri "s|<NFSSERVER>|${NFSSERVER}|g" yaml/new-nfs-client-provisioner-deployment.yaml
+echo "#### Create the new-nfs-client-provisioner-deployment.yaml with variable substitution"
+cat << EOF > yaml/new-nfs-client-provisioner-deployment.yaml
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nfs-client-provisioner
+  namespace: cp4ba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-client-provisioner
+      containers:
+        - name: nfs-client-provisioner
+          image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: cp4ba/nfs-client					# you can change this name to what your own chosen name
+            - name: NFS_SERVER
+              value: ${NFSSERVER}		# change to a real NFS server name
+            - name: NFS_PATH
+              value: ${NFSSERVERLOGSPATH}							# adjust as needed
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: ${NFSSERVER}		# chnage to a real NFS server name
+            path: ${NFSSERVERLOGSPATH}							# adjust as needed
+EOF
 
-# Add the ip address of the infrastructure server then apply the following deployment yaml
+echo "#### Apply the previously created deployment yaml"
 oc apply -f yaml/new-nfs-client-provisioner-deployment.yaml
 
-# Apply the following storage class
+echo "#### Apply the following storage class"
 oc apply -f yaml/04_nfs-managed-storage-storageclass.yaml
 
-# Apply the following persistent volume claim (PVC)
+echo "#### Apply the following persistent volume claim (PVC)"
 oc apply -f yaml/05_nfs-managed-storage-pvc.yaml
 
-# Apply the following test pod
+echo "#### Create the following test pod"
 oc apply -f yaml/06_testpod.yaml

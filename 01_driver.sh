@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./02_create-nfs-storage-directories.sh
-. ./03_setup-env.sh
+. ./02_setup-env.sh
+./03_create-nfs-storage-directories.sh
 ./04_create-nfs-storage.sh
