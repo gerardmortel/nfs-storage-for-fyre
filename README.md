@@ -17,5 +17,5 @@ The purpose of this repo is create NFS storage on IBM Fyre.
 7. unzip main.zip
 8. rm -f main.zip
 9. cd nfs-storage-for-fyre-main
-10. STOP! Put your values for variables inside file 02_setup_env.sh
+10. # STOP! Put your values for variables inside file 02_setup_env.sh
 11. ./01_driver.sh | tee install_nfs.log
