@@ -21,6 +21,6 @@ export STORAGECLASS="nfs-managed-storage" # NFS Storage
 
 ### Preparing Storage Class Option 2, Static Storage using PVs and PVCs
 ### https://www.ibm.com/docs/en/cloud-paks/cp-biz-automation/21.0.x?topic=operator-preparing-log-file-storage
-export NFSBASEPATH=${HOME}/data/nfsshare/
+export NFSBASEPATH=${HOME}/data/nfsshare
 export NFSOPERATORPATH="${NFSBASEPATH}/operator"
 export NFSLOGSPATH="${NFSBASEPATH}/logs"
