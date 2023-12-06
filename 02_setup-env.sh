@@ -24,3 +24,4 @@ export STORAGECLASS="nfs-managed-storage" # NFS Storage
 export NFSBASEPATH=${HOME}/data/nfsshare
 export NFSOPERATORPATH="${NFSBASEPATH}/operator"
 export NFSLOGSPATH="${NFSBASEPATH}/logs"
+export NFSELASTICSEARCHPATH="${NFSBASEPATH}/elasticsearch"

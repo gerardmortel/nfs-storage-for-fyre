@@ -6,6 +6,9 @@ mkdir -p ${NFSOPERATORPATH}
 echo "#### Create the directory for the logs"
 mkdir -p ${NFSLOGSPATH}
 
+echo "#### Create the directory for elasticsearch"
+mkdir -p ${NFSELASTICSEARCHPATH}
+
 echo "#### Allow full access to both directories"
 chmod -R 777 ${NFSBASEPATH}
 
@@ -14,6 +17,7 @@ for ip in $(oc get nodes -o wide | grep -Ev INTERNAL-IP | awk '{ print $6 }'); d
     echo "${NFSBASEPATH}        $ip(rw,sync,insecure,no_wdelay,no_root_squash)" >> /etc/exports;
     echo "${NFSOPERATORPATH}        $ip(rw,sync,insecure,no_wdelay,no_root_squash)" >> /etc/exports ;
     echo "${NFSLOGSPATH}        $ip(rw,sync,insecure,no_wdelay,no_root_squash)" >> /etc/exports ;
+    echo "${NFSELASTICSEARCHPATH}        $ip(rw,sync,insecure,no_wdelay,no_root_squash)" >> /etc/exports ;
 done
 
 echo "#### Make exportfs entries in /etc/export file permanent"
