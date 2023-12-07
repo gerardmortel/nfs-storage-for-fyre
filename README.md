@@ -9,7 +9,7 @@ The purpose of this repo is create NFS storage on IBM Fyre.
 
 # Instructions
 1. ssh into the infrastructure node as root (e.g. ssh root@api.slavers.cp.fyre.ibm.com)
-2. yum install -y git unzip
+2. yum install -y unzip
 3. cd
 4. rm -f main.zip
 5. rm -rf nfs-storage-for-fyre-main
